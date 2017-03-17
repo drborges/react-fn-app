@@ -5,22 +5,22 @@ import Counter from "./components/Counter"
 
 const model = 0
 
-const actions = {
+const events = {
   increment: (count) => count + 1,
   decrement: (count) => count - 1,
 }
 
-const view = (model, trigger) => (
+const view = (model, triggers) => (
   <Counter
     count={model}
-    onIncrement={trigger.increment}
-    onDecrement={trigger.decrement}
+    onIncrement={triggers.increment}
+    onDecrement={triggers.decrement}
   />
 )
 
 const App = (
   <ReactFnApp
-    actions={actions}
+    update={events}
     model={model}
     view={view}
   />

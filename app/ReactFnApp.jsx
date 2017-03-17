@@ -2,16 +2,21 @@ import React from 'react'
 
 export default class ReactFnApp extends React.Component {
   state = { model: this.props.model }
-  actions = this.props.actions
+  events = this.props.update
   view = this.props.view
 
-  trigger = (action) => {
-    return (event) => this.setState({ model: action(this.state.model, event.target.value) })
+  createTrigger = (eventHandler) => {
+    return (event) => this.setState({
+      model: eventHandler(this.state.model, event.target.value)
+    })
   }
 
   triggers = (() => {
-    return Object.keys(this.actions).reduce((triggers, action) => {
-      return Object.assign(triggers, { [action]: this.trigger(this.actions[action]) })
+    return Object.keys(this.events).reduce((triggers, eventName) => {
+      const eventHandler = this.events[eventName]
+      return Object.assign(triggers, {
+        [eventName]: this.createTrigger(eventHandler)
+      })
     }, {})
   })()
 
